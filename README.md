@@ -1,4 +1,4 @@
-# item_management_ver2
+# item_management_app_share
 
 A new Flutter project.
 
