@@ -63,7 +63,7 @@ class ExistedItemDBService {
     ExistedItemDBQuery.updateExistedItemDB(itemModel);
   }
 
-  //개수가 0이 되면 필요물품으로 넘어감
+  ///개수가 0이 되면 필요물품으로 넘어가게 하는 함수
   static noExistedItem(ExistedItemModel itemModel) {
     NeededItemModel newModel = NeededItemModel(
       id: itemModel.id,

@@ -2,14 +2,15 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import '../database/existed_item_sample.dart';
 import '../database/needed_item_sample.dart';
+import '../db_service/existed_item_db_service.dart';
+import '../db_service/needed_item_db_service.dart';
 import '../model/existed_item_model.dart';
 import '../model/needed_item_model.dart';
+import 'upload_needed_item_screen.dart';
 import '../widget/home_widget/existed_list_widget.dart';
 import '../widget/home_widget/needed_list_widget.dart';
 //popupcard
 import 'package:popup_card/src/hero_route.dart';
-
-import 'upload_needed_item_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,14 +26,21 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  // DB setting
+  // DB setting : 처음에 DB가 없을 때 주석지우고 실행해야함.
   ///샘플을  DB에 넣고,  있는 모든 Model 데이터 List 가져옴.
-  Future<List<NeededItemModel>> neededItemModelList =
-      HomeScreen.neededItemsSample.makeNeededItemList();
-  Future<List<ExistedItemModel>> existedItemModelList =
-      HomeScreen.existedItemsSample.makeExistedItemList();
+  // Future<List<NeededItemModel>> neededItemModelList =
+  //     HomeScreen.neededItemsSample.makeNeededItemList();
+  // Future<List<ExistedItemModel>> existedItemModelList =
+  //     HomeScreen.existedItemsSample.makeExistedItemList();
 
-  /// 구비물품 목록 누르면 false로 변환
+  //처음 위 코드로 DB와 샘플데이터를 만들어 한번 실행후에는
+  //위 코드 주석하고 아래 두 코드를 계속 사용
+  Future<List<NeededItemModel>> neededItemModelList =
+      NeededItemDBService.getNeededItemList();
+  Future<List<ExistedItemModel>> existedItemModelList =
+      ExistedItemDBService.getExistedItemList();
+
+  /// 구비물품 목록누르면 false로 변환
   bool isNeeded = true;
 
   /// 목록 container 누르면 isNeeded를 바꾸는 함수
@@ -117,6 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
+                  //쓰려고했던 검색바
                   //     GFSearchBar(
                   //   searchList: isNeeded
                   //       ? HomeScreen.neededItemsSample.getNeededNameList()
@@ -217,9 +226,8 @@ class _HomeScreenState extends State<HomeScreen> {
               makeItemListWidget()
             ],
           ),
-          //아래에 Plus 버튼 UI부분-----------------------------------------------------------------------------------------
-          //Positioned 사용하면 스크린 위에 위젯을 겹치게 쌓을 수 있음.
 
+          //아래에 Plus 버튼 UI부분-----------------------------------------------------------------------------------------
           GestureDetector(
             onTap: () {
               Navigator.push(
