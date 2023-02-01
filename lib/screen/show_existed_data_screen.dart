@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../model/existed_item_model.dart';
 import '../widget/show_widget/icon_button_widget.dart';
 import '../widget/show_widget/isExpendables_widget.dart';
-import '../widget/upload_widget/title_type_widget.dart';
+import '../widget/upload_widget/show_text_widget.dart';
 
 class ShowExistedDataScreen extends StatefulWidget {
   final ExistedItemModel model;
@@ -51,89 +51,84 @@ class _ShowExistedDataScreenState extends State<ShowExistedDataScreen> {
               ),
             ),
           ),
+//---------------------------------물품명(name)---------------------------------
           Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
                 Row(
                   children: [
-                    const TitletypeWidget(
-                      title: '물품명',
+                    ShowTextWidget(
+                      textContent: '물품명',
+                      contentFontSize: 20,
                     ),
                     const SizedBox(width: 25),
-                    Text(
-                      name,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
+                    ShowTextWidget(
+                      textContent: name,
+                      contentFontSize: 16,
                     ),
                   ],
                 ),
+//---------------------------------종류(sort)---------------------------------
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    const TitletypeWidget(
-                      title: '종류',
+                    ShowTextWidget(
+                      textContent: '종류',
+                      contentFontSize: 20,
                     ),
                     const SizedBox(width: 45),
-                    Text(
-                      sort,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
+                    ShowTextWidget(
+                      textContent: sort,
+                      contentFontSize: 16,
                     ),
                   ],
                 ),
+//------------------------개수(count, bundle)-----------------------------------
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    const TitletypeWidget(title: '개수'),
+                    ShowTextWidget(
+                      textContent: '개수',
+                      contentFontSize: 20,
+                    ),
                     const SizedBox(width: 47),
-                    Text(
-                      '$count개 ${bundle}Set',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
+                    ShowTextWidget(
+                      textContent: '$count개 ${bundle}Set',
+                      contentFontSize: 16,
                     ),
                   ],
                 ),
+//-------------위치(boardLocation, narrowLocation, detailLocation)--------------
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    const TitletypeWidget(title: '위치'),
+                    ShowTextWidget(
+                      textContent: '위치',
+                      contentFontSize: 20,
+                    ),
                     const SizedBox(width: 47),
-                    Text(
-                      broadLocation,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
+                    ShowTextWidget(
+                      textContent: broadLocation,
+                      contentFontSize: 16,
                     ),
                     const SizedBox(width: 10),
-                    Text(
-                      narrowLocation,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
+                    ShowTextWidget(
+                      textContent: narrowLocation,
+                      contentFontSize: 16,
                     ),
                   ],
                 ),
                 Row(
                   children: [
                     const SizedBox(width: 85),
-                    Text(
-                      detailLocation,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
+                    ShowTextWidget(
+                      textContent: detailLocation,
+                      contentFontSize: 16,
                     ),
                   ],
                 ),
+//-------------------소모품(expendableIcon, fixturesIcon)-----------------------
                 const SizedBox(height: 20),
                 isExpendables == 1
                     ? IsExpendableWidget(
@@ -145,10 +140,14 @@ class _ShowExistedDataScreenState extends State<ShowExistedDataScreen> {
                         fixturesIcon: Icons.check_box_outlined,
                       ),
                 const SizedBox(height: 20),
+//------------------------------비고(note)--------------------------------------
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    TitletypeWidget(title: '비고'),
+                  children: [
+                    ShowTextWidget(
+                      textContent: '비고',
+                      contentFontSize: 20,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -157,17 +156,15 @@ class _ShowExistedDataScreenState extends State<ShowExistedDataScreen> {
                   width: 300,
                   height: 240,
                   decoration: BoxDecoration(border: Border.all()),
-                  child: Text(
-                    note,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                    ),
+                  child: ShowTextWidget(
+                    textContent: note,
+                    contentFontSize: 16,
                   ),
                 ),
               ],
             ),
           ),
+//---------------------------최하단 아이콘 버튼----------------------------------
           Row(
             children: [
               const SizedBox(width: 50),

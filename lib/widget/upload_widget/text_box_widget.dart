@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+///텍스트 입력 받을 때 사용
 class TextBoxWidget extends StatelessWidget {
   final String hintText, warningText; // 물품명, 예시, 아무것도 안 적으면 나오는 문장
   final double textbox_width, textbox_height;

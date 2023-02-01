@@ -14,7 +14,7 @@ class ExistedItemDBQuery {
     String path = join(await getDatabasesPath(), 'ExistedItems.db');
     print('create existed item table');
     // Delete the database
-    await deleteDatabase(path);
+    // await deleteDatabase(path);
 
     return await openDatabase(path, version: 1, onCreate: (db, version) async {
       await db.execute(

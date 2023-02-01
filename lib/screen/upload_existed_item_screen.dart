@@ -1,12 +1,18 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
+import '../db_service/existed_item_db_service.dart';
+import '../model/existed_item_model.dart';
 import '../widget/upload_widget/text_box_widget.dart';
-import '../widget/upload_widget/title_type_widget.dart';
+import '../widget/upload_widget/show_text_widget.dart';
 
 class UploadExistedItemScreen extends StatefulWidget {
-  const UploadExistedItemScreen({
+  UploadExistedItemScreen({
     Key? key,
+    required this.settingHome,
   }) : super(key: key);
+  late Function settingHome;
 
   @override
   State<UploadExistedItemScreen> createState() =>
@@ -14,38 +20,76 @@ class UploadExistedItemScreen extends StatefulWidget {
 }
 
 class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
-  final sortlist = ['공구', '필기구', '간식', '기계', '기타'];
-  var _selectedsort = '공구'; //디폴트값
+  final sortList = ['공구', '필기구', '간식', '기계', '기타'];
+  var _selectedSort = '공구'; //디폴트값
 
-  final countlist = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-  var _selectedbunddle = '1'; //디폴트값
+  final countList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+  var _selectedBunddle = '1'; //디폴트값
 
-  final buildinglist = ['의료과학관', '인문과학관', '미디어랩스', '공학관', '본관', '학생회관'];
-  var _selectedbuilding = '의료과학관'; //디폴트값
+  final broadLocationList = ['의료과학관', '인문과학관', '미디어랩스', '공학관', '본관', '학생회관'];
+  var _selectedBroadLocation = '의료과학관'; //디폴트값
 
-  final locationlist = ['1521호', '1621호', '1506호', '1504호', '1501호', '그 외'];
-  var _selectedlocation = '1521호';
+  final narrowlocationList = [
+    '1521호',
+    '1621호',
+    '1506호',
+    '1504호',
+    '1501호',
+    '그 외'
+  ];
+  var _selectedNarrowLocation = '1521호';
 
-  final itemnameTextController = TextEditingController();
+  //텍스트 필드 변수
+  final itemNameTextController = TextEditingController();
   final detailLocationTextController = TextEditingController();
   final countTextController = TextEditingController();
-  final contentTextController = TextEditingController();
+  final noteTextController = TextEditingController();
 
   //Input받는 데이터가 저장되는 변수들
   var existedItemNameInput,
       existedDetailLocaitonInput,
       existedCountInput,
-      existedContentInput;
+      existedReasonInput;
   var existedSortInput,
-      existedbunddleInput,
-      existedBuildiongInput,
-      existedLocationInput,
-      existedConsumableInput;
+      existedBundleInput,
+      existedBroadLocationInput,
+      existedNarrowLocationInput,
+      existedIsExpendableInput;
+
+  @override
+  void dispose() {
+    itemNameTextController.dispose();
+    countTextController.dispose();
+    noteTextController.dispose();
+    detailLocationTextController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
     isSelected = [isMetric, isImperial];
     super.initState();
+  }
+
+  void saveDatabase() {
+    //아래 코드를 컨트롤러로 뺄지 고민
+    // 빼려면 데이터들을 모두 넘겨주어야 함.
+    ExistedItemModel newModel = ExistedItemModel(
+      id: Random().nextInt(10000) + 1,
+      name: existedItemNameInput,
+      count: int.parse(existedCountInput),
+      bundle: int.parse(existedBundleInput),
+      broadLocation: existedBroadLocationInput,
+      narrowLocation: existedNarrowLocationInput,
+      detailLocation: existedDetailLocaitonInput,
+      sort: existedSortInput,
+      isExpendables: existedIsExpendableInput == '소모품' ? 1 : 0,
+    );
+
+    ExistedItemDBService.insertExistedItem(newModel);
+
+    widget.settingHome();
+    print('saveDatabase');
   }
 
   @override
@@ -54,7 +98,7 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
       children: [
         //제일 뒷 배경, 불투명도 처리할 곳
         Hero(
-          tag: 'existed_popup',
+          tag: 'popup',
           child: Padding(
             padding: const EdgeInsets.only(top: 70, right: 15, left: 15),
             child: Material(
@@ -67,7 +111,7 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                 child: Column(
                   children: [
                     Row(
-                      //최상단 구비물품 추가하기
+//-----------------------뒤로가기 버튼, 구비물품 추가----------------------------
                       children: [
                         IconButton(
                           icon: const Icon(Icons.arrow_back_ios_new_outlined),
@@ -77,36 +121,39 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                             Navigator.pop(context);
                           },
                         ),
-                        const Text(
-                          '구비 물품 추가하기',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 55, 61, 79),
-                            fontSize: 26,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                        const SizedBox(width: 25),
+                        ShowTextWidget(
+                            textContent: '구비 물품 추가하기',
+                            contentFontSize: 26,
+                            contentFontWeight: FontWeight.w600),
                       ],
                     ),
                     const SizedBox(height: 30),
                     //물품명 적는 위젯
                     Row(
                       children: [
-                        const TitletypeWidget(title: '물품명'),
+                        ShowTextWidget(
+                          textContent: '물품명',
+                          contentFontSize: 20,
+                        ),
                         const SizedBox(width: 20),
                         TextBoxWidget(
                           hintText: '예)종이컵',
                           warningText: '물품명을 입력해주세요',
                           textbox_width: 200,
                           textbox_height: 45,
-                          myTextController: itemnameTextController,
+                          myTextController: itemNameTextController,
                         ),
                       ],
                     ),
                     const SizedBox(height: 20),
-                    //종류 선택하는 위젯
+//----------------------------종류(DropdownButton)-----------------------------
                     Row(
                       children: [
-                        const TitletypeWidget(title: '종류'),
+                        ShowTextWidget(
+                          textContent: '종류',
+                          contentFontSize: 20,
+                        ),
                         const SizedBox(width: 40),
                         Container(
                           height: 45,
@@ -119,8 +166,8 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                           ),
                           child: DropdownButton(
                             alignment: Alignment.center,
-                            value: _selectedsort,
-                            items: sortlist.map((value) {
+                            value: _selectedSort,
+                            items: sortList.map((value) {
                               return DropdownMenuItem(
                                 value: value,
                                 child: Text(value),
@@ -129,7 +176,7 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                             onChanged: (value) {
                               setState(
                                 () {
-                                  _selectedsort = value!;
+                                  _selectedSort = value!;
                                 },
                               );
                             },
@@ -137,11 +184,17 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                         ),
                       ],
                     ),
+//-------------------------------위치------------------------------------------
                     const SizedBox(height: 20),
                     Row(
                       children: [
-                        const TitletypeWidget(title: '위치'),
+                        ShowTextWidget(
+                          textContent: '위치',
+                          contentFontSize: 20,
+                        ),
+//----------------------------건물이름(DropdownButton)--------------------------
                         const SizedBox(width: 40),
+
                         Container(
                           height: 45,
                           width: 110,
@@ -153,8 +206,8 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                           ),
                           child: DropdownButton(
                             alignment: Alignment.center,
-                            value: _selectedbuilding,
-                            items: buildinglist.map((value) {
+                            value: _selectedBroadLocation,
+                            items: broadLocationList.map((value) {
                               return DropdownMenuItem(
                                 value: value,
                                 child: Text(value),
@@ -163,12 +216,13 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                             onChanged: (value) {
                               setState(
                                 () {
-                                  _selectedbuilding = value!;
+                                  _selectedBroadLocation = value!;
                                 },
                               );
                             },
                           ),
                         ),
+//-----------------------------강의실(DropdownButton)---------------------------
                         const SizedBox(width: 20),
                         Container(
                           height: 45,
@@ -181,8 +235,8 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                           ),
                           child: DropdownButton(
                             alignment: Alignment.center,
-                            value: _selectedlocation,
-                            items: locationlist.map((value) {
+                            value: _selectedNarrowLocation,
+                            items: narrowlocationList.map((value) {
                               return DropdownMenuItem(
                                 value: value,
                                 child: Text(value),
@@ -191,7 +245,7 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                             onChanged: (value) {
                               setState(
                                 () {
-                                  _selectedlocation = value!;
+                                  _selectedNarrowLocation = value!;
                                 },
                               );
                             },
@@ -201,6 +255,7 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                         const SizedBox(width: 10),
                       ],
                     ),
+//----------------------------상세위치(TextFormField)---------------------------
                     const SizedBox(height: 20),
                     const SizedBox(width: 40),
                     TextBoxWidget(
@@ -212,10 +267,13 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                     ),
                     const SizedBox(height: 20),
 
-                    //개수 선택하는 위젯
+//--------------------개수(TextFormField), set(bundle)--------------------------
                     Row(
                       children: [
-                        const TitletypeWidget(title: '개수'),
+                        ShowTextWidget(
+                          textContent: '개수',
+                          contentFontSize: 20,
+                        ),
                         const SizedBox(width: 40),
                         TextBoxWidget(
                           hintText: ' 5 ',
@@ -225,13 +283,9 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                           myTextController: countTextController,
                         ),
                         const SizedBox(width: 10),
-                        const Text(
-                          '개',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 55, 61, 79),
-                            fontSize: 15,
-                            //fontFamily: 'Explora-Regular',
-                          ),
+                        ShowTextWidget(
+                          textContent: '개',
+                          contentFontSize: 15,
                         ),
                         const SizedBox(width: 25),
                         Container(
@@ -245,8 +299,8 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                           ),
                           child: DropdownButton(
                             alignment: Alignment.center,
-                            value: _selectedbunddle,
-                            items: countlist.map((value) {
+                            value: _selectedBunddle,
+                            items: countList.map((value) {
                               return DropdownMenuItem(
                                 value: value,
                                 child: Text(value),
@@ -255,30 +309,25 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                             onChanged: (value) {
                               setState(
                                 () {
-                                  _selectedbunddle = value!;
+                                  _selectedBunddle = value!;
                                 },
                               );
                             },
                           ),
                         ),
                         const SizedBox(width: 10),
-                        const Text(
-                          'set',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 55, 61, 79),
-                            fontSize: 15,
-                            //fontFamily: 'Explora-Regular',
-                          ),
+                        ShowTextWidget(
+                          textContent: 'set',
+                          contentFontSize: 15,
                         ),
                       ],
                     ),
                     const SizedBox(height: 20),
+//------------------------------소모품(toggleButtons)---------------------------
 
-                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        //소모품 비품 선택하는 위젯
                         ToggleButtons(
                           isSelected: isSelected,
                           onPressed: toggleSelect,
@@ -308,29 +357,32 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    //필요이유 입력하는 위젯
+//------------------------------비고(TextFormField)----------------------------
                     TextFormField(
-                      controller: contentTextController,
+                      controller: noteTextController,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: '비고',
                       ),
                     ),
+//-----------------------------아이콘 버튼(변수 저장)----------------------------
                     IconButton(
                       icon: const Icon(Icons.add_circle),
                       color: const Color.fromARGB(255, 55, 61, 79),
                       iconSize: 70,
                       onPressed: () {
-                        existedItemNameInput = itemnameTextController;
+                        existedItemNameInput = itemNameTextController.text;
                         existedDetailLocaitonInput =
-                            detailLocationTextController;
-                        existedCountInput = countTextController;
-                        existedContentInput = contentTextController;
-                        existedSortInput = _selectedsort;
-                        existedbunddleInput = _selectedbunddle;
-                        existedBuildiongInput = _selectedbuilding;
-                        existedLocationInput = _selectedlocation;
-                        existedConsumableInput = Consumableitem;
+                            detailLocationTextController.text;
+                        existedCountInput = countTextController.text;
+                        existedSortInput = noteTextController.text;
+                        existedSortInput = _selectedSort;
+                        existedBundleInput = _selectedBunddle;
+                        existedBroadLocationInput = _selectedBroadLocation;
+                        existedNarrowLocationInput = _selectedNarrowLocation;
+                        existedIsExpendableInput = isExpendable;
+                        Navigator.pop(context);
+                        saveDatabase();
                       },
                     ),
                   ],
@@ -349,17 +401,17 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
   bool isMetric = true;
   bool isImperial = false;
   late List<bool> isSelected;
-  var Consumableitem;
+  var isExpendable;
 
   void toggleSelect(value) {
     if (value == 0) {
       isMetric = true;
       isImperial = false;
-      Consumableitem = '소모품';
+      isExpendable = '소모품';
     } else {
       isMetric = false;
       isImperial = true;
-      Consumableitem = '비품';
+      isExpendable = '비품';
     }
     setState(() {
       isSelected = [isMetric, isImperial];

@@ -14,7 +14,7 @@ class NeededItemDBQuery {
     String path = join(await getDatabasesPath(), 'NeededItems.db');
     print('create needed item table');
     // Delete the database
-    await deleteDatabase(path);
+    // await deleteDatabase(path);
 
     return await openDatabase(
       path,

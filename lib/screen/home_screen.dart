@@ -2,10 +2,12 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import '../database/existed_item_sample.dart';
 import '../database/needed_item_sample.dart';
+
 import '../db_service/existed_item_db_service.dart';
 import '../db_service/needed_item_db_service.dart';
 import '../model/existed_item_model.dart';
 import '../model/needed_item_model.dart';
+import 'upload_existed_item_screen.dart';
 import 'upload_needed_item_screen.dart';
 import '../widget/home_widget/existed_list_widget.dart';
 import '../widget/home_widget/needed_list_widget.dart';
@@ -153,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   // ),
                 ),
               ),
-              //물품 목록 종류 UI 및 액션 부분------------------------------------------------------------------------------
+              //-----------------------------물품 목록 종류 UI 및 액션 부분---------------------------
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Row(
@@ -221,21 +223,21 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 10,
               ),
-              //item위젯 보여주는 부분--------------------------------------------------------------------------------------
+              //-----------------------------item위젯 보여주는 부분--------------------------------------
               //isNeeded에 따라 item list 생성하는 위젯에 model list데이터 넘겨줌
               makeItemListWidget()
             ],
           ),
 
-          //아래에 Plus 버튼 UI부분-----------------------------------------------------------------------------------------
+          //-----------------------------아래에 Plus 버튼 UI부분--------------------------------------
           GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
                 HeroDialogRoute(
-                  builder: ((context) =>
-                      UploadItemScreen(settingHome: setHomeScreen)),
-                ),
+                    builder: ((context) => isNeeded
+                        ? UploadNeededItemScreen(settingHome: setHomeScreen)
+                        : UploadExistedItemScreen(settingHome: setHomeScreen))),
               );
             },
             child: const Align(

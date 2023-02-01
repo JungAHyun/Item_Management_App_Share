@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../model/needed_item_model.dart';
 import '../widget/show_widget/icon_button_widget.dart';
 import '../widget/show_widget/isExpendables_widget.dart';
-import '../widget/upload_widget/title_type_widget.dart';
+import '../widget/upload_widget/show_text_widget.dart';
 
 class ShowNeededDataScreen extends StatefulWidget {
   final NeededItemModel model;
@@ -48,71 +48,72 @@ class _ShowNeededDataScreenState extends State<ShowNeededDataScreen> {
               ),
             ),
           ),
+//---------------------------------물품명(name)---------------------------------
           Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
                 Row(
                   children: [
-                    const TitletypeWidget(
-                      title: '물품명',
+                    ShowTextWidget(
+                      textContent: '물품명',
+                      contentFontSize: 20,
                     ),
                     const SizedBox(width: 25),
-                    Text(
-                      name,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
+                    ShowTextWidget(
+                      textContent: name,
+                      contentFontSize: 16,
                     ),
                   ],
                 ),
+//---------------------------------종류(sort)---------------------------------
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    const TitletypeWidget(
-                      title: '종류',
+                    ShowTextWidget(
+                      textContent: '종류',
+                      contentFontSize: 20,
                     ),
                     const SizedBox(width: 45),
-                    Text(
-                      sort,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
+                    ShowTextWidget(
+                      textContent: sort,
+                      contentFontSize: 16,
                     ),
                   ],
                 ),
+//------------------------개수(count, bundle)-----------------------------------
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    const TitletypeWidget(title: '개수'),
+                    ShowTextWidget(
+                      textContent: '개수',
+                      contentFontSize: 20,
+                    ),
                     const SizedBox(width: 47),
-                    Text(
-                      '$count개 ${bundle}Set',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
+                    ShowTextWidget(
+                      textContent: '$count개 ${bundle}Set',
+                      contentFontSize: 16,
                     ),
                   ],
                 ),
+//------------------------------총 가격(price)----------------------------------
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    const TitletypeWidget(title: '총 가격'),
+                    ShowTextWidget(
+                      textContent: '총 가격',
+                      contentFontSize: 20,
+                    ),
                     const SizedBox(
                       width: 25,
                     ),
-                    Text(
-                      '$price',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
+                    ShowTextWidget(
+                      textContent: '$price',
+                      contentFontSize: 16,
                     ),
                   ],
                 ),
+//-------------------소모품(expendableIcon, fixturesIcon)-----------------------
                 const SizedBox(height: 10),
                 isExpendables == 1
                     ? IsExpendableWidget(
@@ -124,10 +125,14 @@ class _ShowNeededDataScreenState extends State<ShowNeededDataScreen> {
                         fixturesIcon: Icons.check_box_outlined,
                       ),
                 const SizedBox(height: 20),
+//-----------------------------필요이유(reason)---------------------------------
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    TitletypeWidget(title: '필요이유'),
+                  children: [
+                    ShowTextWidget(
+                      textContent: '필요이유',
+                      contentFontSize: 20,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -147,6 +152,7 @@ class _ShowNeededDataScreenState extends State<ShowNeededDataScreen> {
               ],
             ),
           ),
+//---------------------------최하단 아이콘 버튼----------------------------------
           Row(
             children: [
               const SizedBox(width: 40),

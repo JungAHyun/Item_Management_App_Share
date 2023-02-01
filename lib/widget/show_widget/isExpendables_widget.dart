@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../upload_widget/title_type_widget.dart';
+import '../upload_widget/show_text_widget.dart';
 
 class IsExpendableWidget extends StatelessWidget {
   late IconData expendableIcon; // Icons.check_box_outlined
@@ -16,7 +16,10 @@ class IsExpendableWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const TitletypeWidget(title: '소모품'),
+        ShowTextWidget(
+          textContent: '소모품',
+          contentFontSize: 20,
+        ),
         const SizedBox(width: 10),
         Icon(
           expendableIcon,
@@ -24,7 +27,10 @@ class IsExpendableWidget extends StatelessWidget {
           size: 40,
         ),
         const SizedBox(width: 20),
-        const TitletypeWidget(title: '비품'),
+        ShowTextWidget(
+          textContent: '비품',
+          contentFontSize: 20,
+        ),
         const SizedBox(width: 10),
         Icon(
           fixturesIcon,
