@@ -1,6 +1,4 @@
-//사용자가 편집하길 원하는 모든 데이터를 가지고 있어야 함.
-// 뷰가 필요한 데이터를 모델에 담아야 함.
-class NeededItemModel extends Object {
+class NeededItemModel {
   final int id; //물품 id
   final String name; //물품명
   final int count; //개수
@@ -15,11 +13,11 @@ class NeededItemModel extends Object {
     required this.id,
     required this.name,
     required this.count,
-    required this.price, //
+    required this.price,
     this.bundle = 1,
     this.isExpendables = 1,
     this.isNeeded = 1,
-    this.reason = '필요함', //
+    this.reason = '필요함',
     this.sort = '기타',
   });
 

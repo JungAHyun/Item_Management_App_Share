@@ -70,7 +70,6 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
     NeededItemDBService.insertNeededItem(newModel);
 
     widget.settingHome();
-    print('saveDatabase');
   }
 
   @override
@@ -92,7 +91,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
-//-----------------------뒤로가기 버튼, 필요물품 추가----------------------------
+//=======================뒤로가기 버튼, 필요물품 추가===========================
                   Row(
                     //최상단 필요물품 추가하기
                     children: [
@@ -114,7 +113,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                     ],
                   ),
                   const SizedBox(height: 30),
-//-----------------------------물품명(TextFormField)----------------------------
+//=============================물품명(TextFormField)============================
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
@@ -137,7 +136,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                               ),
                             ],
                           ),
-//----------------------------종류(DropdownButton)-----------------------------
+//============================종류(DropdownButton)==============================
                           const SizedBox(height: 20),
                           Row(
                             children: [
@@ -176,7 +175,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                               ),
                             ],
                           ),
-//--------------------개수(TextFormField), set(bundle)--------------------------
+//====================개수(TextFormField), set(bundle)==========================
                           const SizedBox(height: 20),
                           Row(
                             children: [
@@ -235,7 +234,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                               ),
                             ],
                           ),
-//--------------------------------총 가격(TextFormField)------------------------
+//================================총 가격(TextFormField)========================
                           const SizedBox(height: 20),
                           Row(
                             children: [
@@ -258,7 +257,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                               ),
                             ],
                           ),
-//------------------------------소모품(toggleButtons)---------------------------
+//==============================소모품(toggleButtons)===========================
                           const SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -288,7 +287,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                               ),
                             ],
                           ),
-//----------------------------필요이유(TextFormField)---------------------------
+//============================필요이유(TextFormField)===========================
                           const SizedBox(height: 10),
 
                           TextFormField(
@@ -300,7 +299,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                                 labelText: '필요이유',
                                 hintText: '필요이유를 작성해주세요'),
                           ),
-//-----------------------------아이콘 버튼(변수 저장)----------------------------
+//=============================아이콘 버튼(변수 저장)===========================
                           IconButton(
                             color: const Color.fromARGB(255, 55, 61, 79),
                             iconSize: 50,
@@ -313,7 +312,6 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                               neededSortInput = _selectedSort;
                               neededBundleInput = _selectedBundle;
                               neededIsExpendablesInput = isExpendable;
-                              print(priceTextController.text);
                               Navigator.pop(context);
                               saveDatabase();
                             },

@@ -12,9 +12,6 @@ class NeededItemDBQuery {
 
   static initDB() async {
     String path = join(await getDatabasesPath(), 'NeededItems.db');
-    print('create needed item table');
-    // Delete the database
-    // await deleteDatabase(path);
 
     return await openDatabase(
       path,
@@ -29,7 +26,7 @@ class NeededItemDBQuery {
 
   static Future<void> insertNeededItemDB(NeededItemModel neededItem) async {
     final db = await database;
-    print('insert needed item');
+
     await db!.insert(
       'NeededItems',
       neededItem.toMap(),
@@ -40,7 +37,7 @@ class NeededItemDBQuery {
   ///DB에서 모든 데이터를 불러와서 하나씩 모델 생성하고, 모두 List로 반환
   static Future<List<NeededItemModel>> getNeededItemListDB() async {
     final db = await database;
-    print('get needed item List');
+
     // 모든 데이터를 얻기 위해 테이블에 질의, db에서 데이터 얻어옴.
     final List<Map<String, dynamic>> maps = await db!.query('NeededItems');
 
@@ -90,10 +87,9 @@ class NeededItemDBQuery {
 
   static Future<void> deleteNeededItemDB(NeededItemModel neededItem) async {
     final db = await database;
-    print('delete needed item');
+
     await db!.delete(
       'NeededItems',
-      // 특정 dog를 제거하기 위해 `where` 절을 사용
       where: "id = ?",
       whereArgs: [neededItem.id],
     );
@@ -101,7 +97,7 @@ class NeededItemDBQuery {
 
   static Future<void> updateNeededItemDB(NeededItemModel neededItem) async {
     final db = await database;
-    print('update needed item');
+
     await db!.update(
       'NeededItems',
       neededItem.toMap(),

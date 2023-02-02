@@ -36,7 +36,6 @@ class ExistedItemDBService {
 
   ////DB의 count수 하나씩 줄이는 함수
   static void clickMinusButton(ExistedItemModel itemModel) {
-    print('minus');
     //개수가 남은경우
     itemModel.count = itemModel.count - 1;
     ExistedItemDBQuery.updateExistedItemDB(itemModel);
@@ -58,7 +57,6 @@ class ExistedItemDBService {
 
   ///DB의 사용중(isusing) 상태를 변환시키는 함수
   static void clickUsingButton(ExistedItemModel itemModel) {
-    print('using');
     itemModel.isUsing == 0 ? itemModel.isUsing = 1 : itemModel.isUsing = 0;
     ExistedItemDBQuery.updateExistedItemDB(itemModel);
   }

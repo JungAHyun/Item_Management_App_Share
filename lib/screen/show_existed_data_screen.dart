@@ -51,7 +51,7 @@ class _ShowExistedDataScreenState extends State<ShowExistedDataScreen> {
               ),
             ),
           ),
-//---------------------------------물품명(name)---------------------------------
+//=================================물품명(name)=================================
           Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
@@ -69,7 +69,7 @@ class _ShowExistedDataScreenState extends State<ShowExistedDataScreen> {
                     ),
                   ],
                 ),
-//---------------------------------종류(sort)---------------------------------
+//=================================종류(sort)===================================
                 const SizedBox(height: 10),
                 Row(
                   children: [
@@ -84,7 +84,7 @@ class _ShowExistedDataScreenState extends State<ShowExistedDataScreen> {
                     ),
                   ],
                 ),
-//------------------------개수(count, bundle)-----------------------------------
+//========================개수(count, bundle)===================================
                 const SizedBox(height: 10),
                 Row(
                   children: [
@@ -99,7 +99,7 @@ class _ShowExistedDataScreenState extends State<ShowExistedDataScreen> {
                     ),
                   ],
                 ),
-//-------------위치(boardLocation, narrowLocation, detailLocation)--------------
+//=============위치(boardLocation, narrowLocation, detailLocation)==============
                 const SizedBox(height: 10),
                 Row(
                   children: [
@@ -128,7 +128,7 @@ class _ShowExistedDataScreenState extends State<ShowExistedDataScreen> {
                     ),
                   ],
                 ),
-//-------------------소모품(expendableIcon, fixturesIcon)-----------------------
+//===================소모품(expendableIcon, fixturesIcon)=======================
                 const SizedBox(height: 20),
                 isExpendables == 1
                     ? IsExpendableWidget(
@@ -140,7 +140,7 @@ class _ShowExistedDataScreenState extends State<ShowExistedDataScreen> {
                         fixturesIcon: Icons.check_box_outlined,
                       ),
                 const SizedBox(height: 20),
-//------------------------------비고(note)--------------------------------------
+//==============================비고(note)======================================
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -164,7 +164,7 @@ class _ShowExistedDataScreenState extends State<ShowExistedDataScreen> {
               ],
             ),
           ),
-//---------------------------최하단 아이콘 버튼----------------------------------
+//===========================최하단 아이콘 버튼=================================
           Row(
             children: [
               const SizedBox(width: 50),

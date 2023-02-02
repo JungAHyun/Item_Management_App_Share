@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import '../../db_service/existed_item_db_service.dart';
 import '../../model/existed_item_model.dart';
 import 'existed_item_widget.dart';
 
 class ExistedItemListWidget extends StatefulWidget {
   final bool isNeeded;
+  final Future<List<ExistedItemModel>> model;
   late Function settingHome;
+
   ExistedItemListWidget({
     Key? key,
     required this.settingHome,
     required this.isNeeded,
+    required this.model,
   }) : super(key: key);
 
   @override
@@ -18,18 +20,17 @@ class ExistedItemListWidget extends StatefulWidget {
 }
 
 class _ExistedItemListWidgetState extends State<ExistedItemListWidget> {
-  Future<List<ExistedItemModel>> getExitedItemModelList() =>
-      ExistedItemDBService.getExistedItemList();
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getExitedItemModelList(),
+      //==========future에 List<ExistedItemModel>을 저장========================
+      future: widget.model,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SizedBox(
             height: 550,
             width: 390,
+            //=====future인 List<ExistedItemModel>을 ListView 형태로 보여줌=====
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 17),
               scrollDirection: Axis.vertical,
@@ -37,10 +38,9 @@ class _ExistedItemListWidgetState extends State<ExistedItemListWidget> {
               separatorBuilder: (context, index) => const SizedBox(
                 height: 15,
               ),
+              //========List 요소인 ExistedItemModel을 각 위젯에 넘겨줌=========
               itemBuilder: (context, index) {
-                // print(index);
                 var item = snapshot.data![index];
-                //컨테이너 리턴하기
                 return ExistedItemWidget(
                   settingHome: widget.settingHome,
                   model: item,
@@ -49,7 +49,6 @@ class _ExistedItemListWidgetState extends State<ExistedItemListWidget> {
             ),
           );
         }
-
         return Column(
           children: [
             const SizedBox(
