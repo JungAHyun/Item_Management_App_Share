@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:item_management_ver2/model/needed_item_model.dart';
 
+import '../../model/needed_item_model.dart';
 import '../../screen/show_needed_data_screen.dart';
 import '../show_widget/icon_button_widget.dart';
 
 class NeededItemWidget extends StatelessWidget {
   late NeededItemModel model;
-  late String name = model.name;
-  late int count = model.count;
-  late int bundle = model.bundle;
-  late String reason = model.reason;
   late Function settingHome;
 
   NeededItemWidget({
@@ -59,7 +55,7 @@ class NeededItemWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(10),
                   width: 120,
                   child: Text(
-                    name,
+                    model.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -76,7 +72,7 @@ class NeededItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '$count개 ${bundle}Set',
+                      '${model.count}개 ${model.bundle}Set',
                       style: const TextStyle(
                         color: Color.fromARGB(255, 55, 61, 79),
                         fontSize: 18,
@@ -86,7 +82,7 @@ class NeededItemWidget extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      reason,
+                      model.reason,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(

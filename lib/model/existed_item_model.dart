@@ -1,6 +1,6 @@
 //사용자가 편집하길 원하는 모든 데이터를 가지고 있어야 함.
 // 뷰가 필요한 데이터를 모델에 담아야 함.
-class ExistedItemModel {
+class ExistedItemModel extends Object {
   final int id; //물품 id
   final String name; //물품명
   late int count;
@@ -23,11 +23,11 @@ class ExistedItemModel {
     this.isNeeded = 0,
     this.isExpendables = 1,
     this.sort = '기타',
-    this.broadLocation = '불명',
-    this.narrowLocation = '불명',
-    this.detailLocation = '불명',
+    this.broadLocation = '불명', //
+    this.narrowLocation = '불명', //
+    this.detailLocation = '불명', //
     this.note = '없음',
-    this.isUsing = 0,
+    this.isUsing = 0, //
   });
 
   //toMap()은 Spec을 map 타입으로 변환주는 함수

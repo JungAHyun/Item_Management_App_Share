@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import '../../db_service/existed_item_db_service.dart';
 import '../../model/existed_item_model.dart';
 import 'existed_item_widget.dart';
 
-class ExistedItemListWidget extends StatelessWidget {
-  final Future<List<ExistedItemModel>> existedItemList;
+class ExistedItemListWidget extends StatefulWidget {
+  final bool isNeeded;
   late Function settingHome;
-
   ExistedItemListWidget({
     Key? key,
-    required this.existedItemList,
     required this.settingHome,
+    required this.isNeeded,
   }) : super(key: key);
+
+  @override
+  State<ExistedItemListWidget> createState() => _ExistedItemListWidgetState();
+}
+
+class _ExistedItemListWidgetState extends State<ExistedItemListWidget> {
+  Future<List<ExistedItemModel>> getExitedItemModelList() =>
+      ExistedItemDBService.getExistedItemList();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: existedItemList,
+      future: getExitedItemModelList(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SizedBox(
@@ -30,11 +38,11 @@ class ExistedItemListWidget extends StatelessWidget {
                 height: 15,
               ),
               itemBuilder: (context, index) {
-                print(index);
+                // print(index);
                 var item = snapshot.data![index];
                 //컨테이너 리턴하기
                 return ExistedItemWidget(
-                  settingHome: settingHome,
+                  settingHome: widget.settingHome,
                   model: item,
                 );
               },

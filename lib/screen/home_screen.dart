@@ -1,25 +1,14 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import '../database/existed_item_sample.dart';
-import '../database/needed_item_sample.dart';
+import 'package:item_management_ver2/widget/home_widget/existed_list_widget.dart';
 
-import '../db_service/existed_item_db_service.dart';
-import '../db_service/needed_item_db_service.dart';
-import '../model/existed_item_model.dart';
-import '../model/needed_item_model.dart';
 import 'upload_existed_item_screen.dart';
 import 'upload_needed_item_screen.dart';
-import '../widget/home_widget/existed_list_widget.dart';
 import '../widget/home_widget/needed_list_widget.dart';
 //popupcard
 import 'package:popup_card/src/hero_route.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
-  ///샘플 객체 생성
-  static MakeNeededItemSample neededItemsSample = MakeNeededItemSample();
-  static MakeExistedItemSample existedItemsSample = MakeExistedItemSample();
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -28,26 +17,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  // DB setting : 처음에 DB가 없을 때 주석지우고 실행해야함.
-  ///샘플을  DB에 넣고,  있는 모든 Model 데이터 List 가져옴.
   // Future<List<NeededItemModel>> neededItemModelList =
-  //     HomeScreen.neededItemsSample.makeNeededItemList();
+  //     NeededItemDBService.getNeededItemList();
   // Future<List<ExistedItemModel>> existedItemModelList =
-  //     HomeScreen.existedItemsSample.makeExistedItemList();
+  //     ExistedItemDBService.getExistedItemList();
 
-  //처음 위 코드로 DB와 샘플데이터를 만들어 한번 실행후에는
-  //위 코드 주석하고 아래 두 코드를 계속 사용
-  Future<List<NeededItemModel>> neededItemModelList =
-      NeededItemDBService.getNeededItemList();
-  Future<List<ExistedItemModel>> existedItemModelList =
-      ExistedItemDBService.getExistedItemList();
-
-  /// 구비물품 목록누르면 false로 변환
   bool isNeeded = true;
 
-  /// 목록 container 누르면 isNeeded를 바꾸는 함수
-  /// => isNeeded에 따라 스크린에 뜨는 위젯이 달라짐.
-  void changeListSort(bool clickedListSort) {
+  ///isNeeded에 따라 달라지는 ItemList를 새로고침 해주는 기능
+  void setHomeScreen(bool clickedListSort) {
     setState(() {
       if (isNeeded != clickedListSort) {
         isNeeded = !isNeeded;
@@ -55,21 +33,14 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  ///데이터 변경될 때 마다 HomeScreen 다시 세팅 해주는 함수
-  void setHomeScreen() {
-    setState(() {
-      neededItemModelList = NeededItemDBService.getNeededItemList();
-      existedItemModelList = ExistedItemDBService.getExistedItemList();
-      makeItemListWidget();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //============================AppBar======================================
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 55, 61, 79),
         centerTitle: true,
+        //=========================Title=======================
         title: const Text(
           'Item Manager',
           style: TextStyle(
@@ -79,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         actions: <Widget>[
+          //======================기각 Icon=====================
           IconButton(
             icon: const Icon(Icons.assignment_late_outlined),
             color: Colors.white,
@@ -93,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 5,
               ),
+              //==========================검색바================================
               SizedBox(
                 width: 360,
                 height: 95,
@@ -105,29 +78,29 @@ class _HomeScreenState extends State<HomeScreen> {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     child: ListView(
                       padding: const EdgeInsets.all(4),
-                      children: <Widget>[
-                        const Divider(),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: DropdownSearch<String>(
-                                //isNeeded가 true(1)이면 필요 물품 이름을 보여주고,
-                                // false(0)이면 구비 물품 이름을 보여줌.
-                                items: isNeeded
-                                    ? HomeScreen.neededItemsSample
-                                        .getNeededNameList()
-                                    : HomeScreen.existedItemsSample
-                                        .getExistedNameList(),
-                              ),
-                            ),
-                          ],
-                        ),
+                      children: const <Widget>[
+                        Divider(),
+                        // Row(
+                        //   children: [
+                        //     Expanded(
+                        //       child: DropdownSearch<String>(
+                        //         //isNeeded가 true(1)이면 필요 물품 이름을 보여주고,
+                        //         // false(0)이면 구비 물품 이름을 보여줌.
+                        //         items: isNeeded
+                        //             ? HomeScreen.neededItemsSample
+                        //                 .getNeededNameList()
+                        //             : HomeScreen.existedItemsSample
+                        //                 .getExistedNameList(),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ),
                 ),
               ),
-              //-----------------------------물품 목록 종류 UI 및 액션 부분---------------------------
+              //====================목록 선택 컨테이너==========================
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Row(
@@ -135,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          changeListSort(true);
+                          setHomeScreen(true);
                         },
                         child: Center(
                           child: Column(
@@ -166,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          changeListSort(false);
+                          setHomeScreen(false);
                         },
                         child: Center(
                           child: Column(
@@ -195,13 +168,20 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 10,
               ),
-              //-----------------------------item위젯 보여주는 부분--------------------------------------
-              //isNeeded에 따라 item list 생성하는 위젯에 model list데이터 넘겨줌
-              makeItemListWidget()
+              //=======================Item ListView============================
+              isNeeded
+                  ? NeededItemListWidget(
+                      settingHome: setHomeScreen,
+                      isNeeded: isNeeded,
+                    )
+                  : ExistedItemListWidget(
+                      settingHome: setHomeScreen,
+                      isNeeded: isNeeded,
+                    )
             ],
           ),
 
-          //-----------------------------아래에 Plus 버튼 UI부분--------------------------------------
+          //===========================Plus Button==============================
           GestureDetector(
             onTap: () {
               Navigator.push(
@@ -227,14 +207,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
-  }
-
-  ///필요물품과 구비물품을 생성하고 UI를 화면에 띄우는 함수
-  StatelessWidget makeItemListWidget() {
-    return isNeeded
-        ? NeededItemListWidget(
-            neededItemList: neededItemModelList, settingHome: setHomeScreen)
-        : ExistedItemListWidget(
-            existedItemList: existedItemModelList, settingHome: setHomeScreen);
   }
 }

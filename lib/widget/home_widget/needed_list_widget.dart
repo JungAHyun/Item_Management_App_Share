@@ -1,24 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../../db_service/needed_item_db_service.dart';
 import '../../model/needed_item_model.dart';
 
 import 'needed_item_widget.dart';
 
-class NeededItemListWidget extends StatelessWidget {
-  final Future<List<NeededItemModel>> neededItemList;
+class NeededItemListWidget extends StatefulWidget {
+  final bool isNeeded;
   late Function settingHome;
 
   NeededItemListWidget({
     Key? key,
-    required this.neededItemList,
     required this.settingHome,
+    required this.isNeeded,
   }) : super(key: key);
+
+  @override
+  State<NeededItemListWidget> createState() => _NeededItemListWidgetState();
+}
+
+class _NeededItemListWidgetState extends State<NeededItemListWidget> {
+  /// DB에서 필요물품 목록 읽어오는 함수
+  Future<List<NeededItemModel>> getNeededItemModelList() =>
+      NeededItemDBService.getNeededItemList();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: neededItemList,
+      future: getNeededItemModelList(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SizedBox(
@@ -36,8 +46,8 @@ class NeededItemListWidget extends StatelessWidget {
                 var item = snapshot.data![index];
                 //컨테이너 리턴하기
                 return NeededItemWidget(
+                  settingHome: widget.settingHome,
                   model: item,
-                  settingHome: settingHome,
                 );
               },
             ),
@@ -54,27 +64,6 @@ class NeededItemListWidget extends StatelessWidget {
             ),
           ],
         );
-        // SizedBox(
-        //   height: 150,
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     crossAxisAlignment: CrossAxisAlignment.center,
-        //     children: [
-        //       const Center(
-        //         child: Text(
-        //           'laoding',
-        //           style: TextStyle(fontSize: 3),
-        //         ),
-        //       ),
-        //       Center(
-        //         child: LoadingAnimationWidget.waveDots(
-        //           color: const Color.fromARGB(255, 55, 61, 79),
-        //           size: 15,
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // );
       },
     );
   }
