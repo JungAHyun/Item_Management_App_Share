@@ -44,49 +44,47 @@ class _IconButtonWidgetState extends State<IconButtonWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      IconButton(
-        icon: Icon(widget.selectedIcon),
-        color: (widget.usingState == 1 && widget.iconAction == 'useItem')
-            ? Colors.amber.shade900
-            : const Color.fromARGB(255, 55, 61, 79),
-        iconSize: widget.screen == 'Home' ? 35 : 55,
-        onPressed: () async {
-          /// model is NeededItemModel일때 버튼 액션
-          if (widget.model is NeededItemModel) {
-            if (widget.iconAction == 'buyItem') {
-              NeededItemDBService.clickBuyButton(widget.model);
-              widget.screen == 'Home' ? print('') : Navigator.pop(context);
-            } else if (widget.iconAction == 'deleteItem') {
-              NeededItemDBService.deleteNeededItem(widget.model);
-              Navigator.pop(context);
+    return Row(
+      children: [
+        IconButton(
+          icon: Icon(widget.selectedIcon),
+          color: (widget.usingState == 1 && widget.iconAction == 'useItem') ? Colors.amber.shade900 : const Color.fromARGB(255, 55, 61, 79),
+          iconSize: widget.screen == 'Home' ? 35 : 55,
+          onPressed: () async {
+            /// model is NeededItemModel일때 버튼 액션
+            if (widget.model is NeededItemModel) {
+              if (widget.iconAction == 'buyItem') {
+                NeededItemDBService.clickBuyButton(widget.model);
+                widget.screen == 'Home' ? print('') : Navigator.pop(context);
+              } else if (widget.iconAction == 'deleteItem') {
+                NeededItemDBService.deleteNeededItem(widget.model);
+                Navigator.pop(context);
+              }
             }
-          }
 
-          ///model is ExistedItemModel일때 버튼 액션
-          else {
-            if (widget.iconAction == 'minusItem') {
-              ExistedItemDBService.clickMinusButton(widget.model);
-              widget.screen == 'Home' ? print('') : Navigator.pop(context);
-            } else if (widget.iconAction == 'useItem') {
-              ExistedItemDBService.clickUsingButton(widget.model);
+            ///model is ExistedItemModel일때 버튼 액션
+            else {
+              if (widget.iconAction == 'minusItem') {
+                ExistedItemDBService.clickMinusButton(widget.model);
+                widget.screen == 'Home' ? print('') : Navigator.pop(context);
+              } else if (widget.iconAction == 'useItem') {
+                ExistedItemDBService.clickUsingButton(widget.model);
 
-              widget.screen == 'Home' ? print('') : Navigator.pop(context);
-            } else if (widget.iconAction == 'deleteItem') {
-              ExistedItemDBService.deleteExistedItem(widget.model);
-              Navigator.pop(context);
+                widget.screen == 'Home' ? print('') : Navigator.pop(context);
+              } else if (widget.iconAction == 'deleteItem') {
+                ExistedItemDBService.deleteExistedItem(widget.model);
+                Navigator.pop(context);
+              }
             }
-          }
 
-          // widget.settingShow();
-          widget.settingHome();
-        },
-      ),
-      SizedBox(
-        width: widget.screen == 'Home'
-            ? 0
-            : (widget.model is NeededItemModel ? 20 : 48),
-      ),
-    ]);
+            // widget.settingShow();
+            widget.settingHome();
+          },
+        ),
+        SizedBox(
+          width: widget.screen == 'Home' ? 0 : (widget.model is NeededItemModel ? 20 : 48),
+        ),
+      ],
+    );
   }
 }

@@ -19,10 +19,27 @@ class UploadNeededItemScreen extends StatefulWidget {
 }
 
 class _UploadItemScreenState extends State<UploadNeededItemScreen> {
-  final sortList = ['공구', '필기구', '간식', '기계', '기타'];
+  final sortList = [
+    '공구',
+    '필기구',
+    '간식',
+    '기계',
+    '기타'
+  ];
   var _selectedSort = '공구'; //디폴트값
 
-  final countList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+  final countList = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10'
+  ];
   var _selectedBundle = '1'; //디폴트값
 
   final itemnameTextController = TextEditingController();
@@ -30,11 +47,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
   final priceTextController = TextEditingController();
   final reasonTextController = TextEditingController();
 
-  late var neededItemNameInput,
-      neededPriceInput,
-      neededCountInput,
-      neededReasonInput;
-  late var neededSortInput, neededBundleInput, neededIsExpendablesInput;
+  late var neededItemNameInput, neededPriceInput, neededCountInput, neededReasonInput, neededSortInput, neededBundleInput, neededIsExpendablesInput;
 
   @override
   void dispose() {
@@ -47,10 +60,13 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
 
   @override
   void initState() {
-    isSelected = [isMetric, isImperial];
+    isSelected = [
+      isMetric,
+      isImperial
+    ];
     super.initState();
 
-    int counter = 0;
+    //int counter = 0;
   } // 소모품 비품toggle버튼에서 사용
 
   void saveDatabase() {
@@ -80,13 +96,13 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
         vertical: 60,
         horizontal: 15,
       ),
+      key: GlobalKey<FormState>(),
       child: Hero(
         tag: "popup",
         child: Material(
           color: Colors.white,
           elevation: 2,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(20),
@@ -108,9 +124,10 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                         width: 40,
                       ),
                       ShowTextWidget(
-                          textContent: '필요 물품 추가하기',
-                          contentFontSize: 26,
-                          contentFontWeight: FontWeight.w600),
+                        textContent: '필요 물품 추가하기',
+                        contentFontSize: 26,
+                        contentFontWeight: FontWeight.w600,
+                      ),
                     ],
                   ),
                   const SizedBox(height: 30),
@@ -151,8 +168,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                                 width: 75,
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color:
-                                        const Color.fromARGB(255, 55, 61, 79),
+                                    color: const Color.fromARGB(255, 55, 61, 79),
                                   ),
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -205,8 +221,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                                 width: 55,
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color:
-                                        const Color.fromARGB(255, 55, 61, 79),
+                                    color: const Color.fromARGB(255, 55, 61, 79),
                                   ),
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -269,16 +284,14 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                                 onPressed: toggleSelect,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
+                                    padding: const EdgeInsets.symmetric(horizontal: 16),
                                     child: ShowTextWidget(
                                       textContent: '소모품',
                                       contentFontSize: 15,
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
+                                    padding: const EdgeInsets.symmetric(horizontal: 16),
                                     child: ShowTextWidget(
                                       textContent: '비품',
                                       contentFontSize: 15,
@@ -295,10 +308,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                             controller: reasonTextController,
                             maxLines: 8,
                             maxLength: 100,
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: '필요이유',
-                                hintText: '필요이유를 작성해주세요'),
+                            decoration: const InputDecoration(border: OutlineInputBorder(), labelText: '필요이유', hintText: '필요이유를 작성해주세요'),
                           ),
 //-----------------------------아이콘 버튼(변수 저장)----------------------------
                           IconButton(
@@ -349,7 +359,10 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
       isExpendable = '비품';
     }
     setState(() {
-      isSelected = [isMetric, isImperial];
+      isSelected = [
+        isMetric,
+        isImperial
+      ];
     });
   }
 }

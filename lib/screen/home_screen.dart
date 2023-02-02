@@ -30,17 +30,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // DB setting : 처음에 DB가 없을 때 주석지우고 실행해야함.
   ///샘플을  DB에 넣고,  있는 모든 Model 데이터 List 가져옴.
-  // Future<List<NeededItemModel>> neededItemModelList =
-  //     HomeScreen.neededItemsSample.makeNeededItemList();
-  // Future<List<ExistedItemModel>> existedItemModelList =
-  //     HomeScreen.existedItemsSample.makeExistedItemList();
+  // Future<List<NeededItemModel>> neededItemModelList = HomeScreen.neededItemsSample.makeNeededItemList();
+  // Future<List<ExistedItemModel>> existedItemModelList = HomeScreen.existedItemsSample.makeExistedItemList();
 
   //처음 위 코드로 DB와 샘플데이터를 만들어 한번 실행후에는
   //위 코드 주석하고 아래 두 코드를 계속 사용
-  Future<List<NeededItemModel>> neededItemModelList =
-      NeededItemDBService.getNeededItemList();
-  Future<List<ExistedItemModel>> existedItemModelList =
-      ExistedItemDBService.getExistedItemList();
+  Future<List<NeededItemModel>> neededItemModelList = NeededItemDBService.getNeededItemList();
+  Future<List<ExistedItemModel>> existedItemModelList = ExistedItemDBService.getExistedItemList();
 
   /// 구비물품 목록누르면 false로 변환
   bool isNeeded = true;
@@ -59,9 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void setHomeScreen() {
     setState(() {
       print('setHomeState');
-      neededItemModelList = HomeScreen.neededItemsSample.makeNeededItemList();
-      existedItemModelList =
-          HomeScreen.existedItemsSample.makeExistedItemList();
+      neededItemModelList = NeededItemDBService.getNeededItemList();
+      existedItemModelList = ExistedItemDBService.getExistedItemList();
       makeItemListWidget();
     });
   }
@@ -115,11 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: DropdownSearch<String>(
                                 //isNeeded가 true(1)이면 필요 물품 이름을 보여주고,
                                 // false(0)이면 구비 물품 이름을 보여줌.
-                                items: isNeeded
-                                    ? HomeScreen.neededItemsSample
-                                        .getNeededNameList()
-                                    : HomeScreen.existedItemsSample
-                                        .getExistedNameList(),
+                                items: isNeeded ? HomeScreen.neededItemsSample.getNeededNameList() : HomeScreen.existedItemsSample.getExistedNameList(),
                               ),
                             ),
                           ],
@@ -158,67 +149,60 @@ class _HomeScreenState extends State<HomeScreen> {
               //-----------------------------물품 목록 종류 UI 및 액션 부분---------------------------
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          changeListSort(true);
-                        },
-                        child: Center(
-                          child: Column(
-                            children: [
-                              const Text(
-                                '필요 물품 목록',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 150,
-                                child: Divider(
-                                  //isNeeded에 따라 구분선 색 변화.
-                                  color: isNeeded
-                                      ? const Color.fromARGB(255, 55, 61, 79)
-                                      : const Color.fromARGB(
-                                          255, 160, 162, 167),
-                                  thickness: 2.0,
-                                ),
-                              ),
-                            ],
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                  GestureDetector(
+                    onTap: () {
+                      changeListSort(true);
+                    },
+                    child: Center(
+                      child: Column(
+                        children: [
+                          const Text(
+                            '필요 물품 목록',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          changeListSort(false);
-                        },
-                        child: Center(
-                          child: Column(
-                            children: [
-                              const Text(
-                                '구비 물품 목록',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 150,
-                                child: Divider(
-                                  color: isNeeded
-                                      ? const Color.fromARGB(255, 160, 162, 167)
-                                      : const Color.fromARGB(255, 55, 61, 79),
-                                  thickness: 2.0,
-                                ),
-                              ),
-                            ],
+                          SizedBox(
+                            width: 150,
+                            child: Divider(
+                              //isNeeded에 따라 구분선 색 변화.
+                              color: isNeeded ? const Color.fromARGB(255, 55, 61, 79) : const Color.fromARGB(255, 160, 162, 167),
+                              thickness: 2.0,
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ]),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      changeListSort(false);
+                    },
+                    child: Center(
+                      child: Column(
+                        children: [
+                          const Text(
+                            '구비 물품 목록',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 150,
+                            child: Divider(
+                              color: isNeeded ? const Color.fromARGB(255, 160, 162, 167) : const Color.fromARGB(255, 55, 61, 79),
+                              thickness: 2.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ]),
               ),
               const SizedBox(
                 height: 10,
@@ -235,9 +219,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 HeroDialogRoute(
-                    builder: ((context) => isNeeded
-                        ? UploadNeededItemScreen(settingHome: setHomeScreen)
-                        : UploadExistedItemScreen(settingHome: setHomeScreen))),
+                  builder: ((context) => isNeeded ? UploadNeededItemScreen(settingHome: setHomeScreen) : UploadExistedItemScreen(settingHome: setHomeScreen)),
+                ),
               );
             },
             child: const Align(
@@ -259,10 +242,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   ///필요물품과 구비물품을 생성하고 UI를 화면에 띄우는 함수
   StatelessWidget makeItemListWidget() {
-    return isNeeded
-        ? NeededItemListWidget(
-            neededItemList: neededItemModelList, settingHome: setHomeScreen)
-        : ExistedItemListWidget(
-            existedItemList: existedItemModelList, settingHome: setHomeScreen);
+    return isNeeded ? NeededItemListWidget(neededItemList: neededItemModelList, settingHome: setHomeScreen) : ExistedItemListWidget(existedItemList: existedItemModelList, settingHome: setHomeScreen);
   }
 }
