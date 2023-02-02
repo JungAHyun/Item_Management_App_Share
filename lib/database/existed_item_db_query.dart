@@ -12,7 +12,7 @@ class ExistedItemDBQuery {
 
   static initDB() async {
     String path = join(await getDatabasesPath(), 'ExistedItems.db');
-    print('create existed item table');
+
     // Delete the database
     // await deleteDatabase(path);
 
@@ -24,7 +24,6 @@ class ExistedItemDBQuery {
 
   static void insertExistedItemDB(ExistedItemModel existItem) async {
     final db = await database;
-    print('insert existed item');
 
     await db!.insert(
       'ExistedItems',
@@ -36,7 +35,6 @@ class ExistedItemDBQuery {
   ///DB에서 모든 데이터를 불러와서 하나씩 모델 생성하고, 모두 List로 반환
   static Future<List<ExistedItemModel>> getExistedItemListDB() async {
     final db = await database;
-    print('get existed item list');
 
     // 모든 데이터를 얻기 위해 테이블에 질의, db에서 데이터 얻어옴.
     final List<Map<String, dynamic>> maps = await db!.query('ExistedItems');
@@ -92,7 +90,6 @@ class ExistedItemDBQuery {
 
   static Future<void> deleteExistedItemDB(ExistedItemModel existedItem) async {
     final db = await database;
-    print('delete existed item');
 
     await db!.delete(
       'ExistedItems',
@@ -104,7 +101,6 @@ class ExistedItemDBQuery {
 
   static Future<void> updateExistedItemDB(ExistedItemModel existedItem) async {
     final db = await database;
-    print('update existed item');
 
     await db!.update(
       'ExistedItems',

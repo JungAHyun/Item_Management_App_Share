@@ -22,7 +22,7 @@ class NeededItemListWidget extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SizedBox(
-            height: 600,
+            height: 550,
             width: 390,
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 17),
@@ -32,7 +32,7 @@ class NeededItemListWidget extends StatelessWidget {
                 height: 15,
               ),
               itemBuilder: (context, index) {
-                print(index);
+                // print(index);
                 var item = snapshot.data![index];
                 //컨테이너 리턴하기
                 return NeededItemWidget(

@@ -89,7 +89,6 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
     ExistedItemDBService.insertExistedItem(newModel);
 
     widget.settingHome();
-    print('saveDatabase');
   }
 
   @override

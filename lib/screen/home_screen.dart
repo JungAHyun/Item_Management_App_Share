@@ -58,10 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
   ///데이터 변경될 때 마다 HomeScreen 다시 세팅 해주는 함수
   void setHomeScreen() {
     setState(() {
-      print('setHomeState');
-      neededItemModelList = HomeScreen.neededItemsSample.makeNeededItemList();
-      existedItemModelList =
-          HomeScreen.existedItemsSample.makeExistedItemList();
+      neededItemModelList = NeededItemDBService.getNeededItemList();
+      existedItemModelList = ExistedItemDBService.getExistedItemList();
       makeItemListWidget();
     });
   }
@@ -127,32 +125,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  //쓰려고했던 검색바
-                  //     GFSearchBar(
-                  //   searchList: isNeeded
-                  //       ? HomeScreen.neededItemsSample.getNeededNameList()
-                  //       : HomeScreen.existItemsSample.getExistedNameList(),
-                  //   searchQueryBuilder: (query, list) {
-                  //     return list
-                  //         .where((item) =>
-                  //             item.toLowerCase().contains(query.toLowerCase()))
-                  //         .toList();
-                  //   },
-                  //   overlaySearchListItemBuilder: (item) {
-                  //     return Container(
-                  //       padding: const EdgeInsets.all(8),
-                  //       child: Text(
-                  //         item,
-                  //         style: const TextStyle(fontSize: 18),
-                  //       ),
-                  //     );
-                  //   },
-                  //   onItemSelected: (item) {
-                  //     setState(() {
-                  //       print(item);
-                  //     });
-                  //   },
-                  // ),
                 ),
               ),
               //-----------------------------물품 목록 종류 UI 및 액션 부분---------------------------
