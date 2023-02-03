@@ -22,12 +22,9 @@ class TextBoxWidget extends StatelessWidget {
       height: textbox_height,
       child: TextFormField(
         controller: myTextController,
-        decoration: InputDecoration(
-            contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            border: const OutlineInputBorder(),
-            hintText: hintText),
+        decoration: InputDecoration(contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0), border: const OutlineInputBorder(), hintText: hintText),
         validator: (val) {
-          if (val!.isEmpty) {
+          if (val == null || val.isEmpty) {
             return warningText;
           }
           return null;
