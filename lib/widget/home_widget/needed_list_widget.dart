@@ -44,8 +44,8 @@ class _NeededItemListWidgetState extends State<NeededItemListWidget> {
               itemBuilder: (context, index) {
                 var item = snapshot.data![index];
                 return NeededItemWidget(
-                  settingHome: widget.settingHome,
                   model: item,
+                  settingHome: widget.settingHome,
                 );
               },
             ),
@@ -62,6 +62,27 @@ class _NeededItemListWidgetState extends State<NeededItemListWidget> {
             ),
           ],
         );
+        // SizedBox(
+        //   height: 150,
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     crossAxisAlignment: CrossAxisAlignment.center,
+        //     children: [
+        //       const Center(
+        //         child: Text(
+        //           'laoding',
+        //           style: TextStyle(fontSize: 3),
+        //         ),
+        //       ),
+        //       Center(
+        //         child: LoadingAnimationWidget.waveDots(
+        //           color: const Color.fromARGB(255, 55, 61, 79),
+        //           size: 15,
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // );
       },
     );
   }

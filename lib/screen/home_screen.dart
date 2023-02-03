@@ -46,11 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //============================AppBar======================================
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 55, 61, 79),
         centerTitle: true,
-        //=========================Title=======================
         title: const Text(
           'Item Manager',
           style: TextStyle(
@@ -60,7 +58,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         actions: <Widget>[
-          //======================기각 Icon=====================
           IconButton(
             icon: const Icon(Icons.assignment_late_outlined),
             color: Colors.white,
@@ -75,42 +72,41 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 5,
               ),
-              //==========================검색바================================
-              SizedBox(
-                width: 360,
-                height: 95,
-                child: Padding(
-                  padding: const EdgeInsets.all(2),
-                  child:
-                      //SearchBar 생성(지금은 SelectBar여서 수정해야 함)
-                      Form(
-                    key: _formKey,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    child: ListView(
-                      padding: const EdgeInsets.all(4),
-                      children: const <Widget>[
-                        Divider(),
-                        // Row(
-                        //   children: [
-                        //     Expanded(
-                        //       child: DropdownSearch<String>(
-                        //         //isNeeded가 true(1)이면 필요 물품 이름을 보여주고,
-                        //         // false(0)이면 구비 물품 이름을 보여줌.
-                        //         items: isNeeded
-                        //             ? HomeScreen.neededItemsSample
-                        //                 .getNeededNameList()
-                        //             : HomeScreen.existedItemsSample
-                        //                 .getExistedNameList(),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              //====================목록 선택 컨테이너==========================
+              // SizedBox(
+              //   width: 360,
+              //   height: 95,
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(2),
+              //     child:
+              //         //SearchBar 생성(지금은 SelectBar여서 수정해야 함)
+              //         Form(
+              //       key: _formKey,
+              //       autovalidateMode: AutovalidateMode.onUserInteraction,
+              //       child: ListView(
+              //         padding: const EdgeInsets.all(4),
+              //         children: <Widget>[
+              //           const Divider(),
+              //           Row(
+              //             children: [
+              //               Expanded(
+              //                 child: DropdownSearch<String>(
+              //                   //isNeeded가 true(1)이면 필요 물품 이름을 보여주고,
+              //                   // false(0)이면 구비 물품 이름을 보여줌.
+              //                   items: isNeeded
+              //                       ? HomeScreen.neededItemsSample
+              //                           .getNeededNameList()
+              //                       : HomeScreen.existedItemsSample
+              //                           .getExistedNameList(),
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              //-----------------------------물품 목록 종류 UI 및 액션 부분---------------------------
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Row(
@@ -193,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
 
-          //===========================Plus Button==============================
+          //-----------------------------아래에 Plus 버튼 UI부분--------------------------------------
           GestureDetector(
             onTap: () {
               Navigator.push(
@@ -224,4 +220,13 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+//   ///필요물품과 구비물품을 생성하고 UI를 화면에 띄우는 함수
+//   StatelessWidget makeItemListWidget() {
+//     return isNeeded
+//         ? NeededItemListWidget(
+//             neededItemList: neededItemModelList, settingHome: setHomeScreen)
+//         : ExistedItemListWidget(
+//             existedItemList: existedItemModelList, settingHome: setHomeScreen);
+//   }
 }

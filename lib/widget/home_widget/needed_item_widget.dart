@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:item_management_ver2/model/needed_item_model.dart';
 
-import '../../model/needed_item_model.dart';
 import '../../screen/show_needed_data_screen.dart';
 import '../show_widget/icon_button_widget.dart';
 
@@ -8,6 +8,10 @@ class NeededItemWidget extends StatelessWidget {
   //ListView의 item인 NeededItemModel을 파라미터로 받음
   //ShowNeededDataScreen에서 아이콘버튼 클릭 시 HomeScreen을 새로고침하기 위해 settingHome을 파라미터로 받음
   late NeededItemModel model;
+  late String name = model.name;
+  late int count = model.count;
+  late int bundle = model.bundle;
+  late String reason = model.reason;
   late Function settingHome;
 
   NeededItemWidget({
@@ -59,7 +63,7 @@ class NeededItemWidget extends StatelessWidget {
                 child: SizedBox(
                   width: 100,
                   child: Text(
-                    model.name,
+                    name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -77,7 +81,7 @@ class NeededItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${model.count}개 ${model.bundle}Set',
+                      '$count개 ${bundle}Set',
                       style: const TextStyle(
                         color: Color.fromARGB(255, 55, 61, 79),
                         fontSize: 18,
@@ -87,7 +91,7 @@ class NeededItemWidget extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      model.reason,
+                      reason,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
