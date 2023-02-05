@@ -8,7 +8,7 @@ import '../model/existed_item_model.dart';
 import 'needed_item_db_service.dart';
 
 class ExistedItemDBService {
-  ///ExistedItemDBQuery이용해서 db에 넣음
+  ///ExistedItemDBQuery이용해서 db에 추가
   static void insertExistedItem(ExistedItemModel itemModel) {
     ExistedItemDBQuery.insertExistedItemDB(itemModel);
   }

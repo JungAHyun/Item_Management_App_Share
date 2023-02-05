@@ -8,10 +8,6 @@ class NeededItemWidget extends StatelessWidget {
   //ListView의 item인 NeededItemModel을 파라미터로 받음
   //ShowNeededDataScreen에서 아이콘버튼 클릭 시 HomeScreen을 새로고침하기 위해 settingHome을 파라미터로 받음
   late NeededItemModel model;
-  late String name = model.name;
-  late int count = model.count;
-  late int bundle = model.bundle;
-  late String reason = model.reason;
   late Function settingHome;
 
   NeededItemWidget({
@@ -63,7 +59,7 @@ class NeededItemWidget extends StatelessWidget {
                 child: SizedBox(
                   width: 100,
                   child: Text(
-                    name,
+                    model.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -81,7 +77,7 @@ class NeededItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '$count개 ${bundle}Set',
+                      '${model.count}개 ${model.bundle}Set',
                       style: const TextStyle(
                         color: Color.fromARGB(255, 55, 61, 79),
                         fontSize: 18,
@@ -91,7 +87,7 @@ class NeededItemWidget extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      reason,
+                      model.reason,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(

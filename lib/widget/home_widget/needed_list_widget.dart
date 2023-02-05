@@ -6,15 +6,13 @@ import '../../model/needed_item_model.dart';
 import 'needed_item_widget.dart';
 
 class NeededItemListWidget extends StatefulWidget {
-  final bool isNeeded;
-  final Future<List<NeededItemModel>> model;
+  final Future<List<NeededItemModel>> modelList;
   late Function settingHome;
 
   NeededItemListWidget({
     Key? key,
+    required this.modelList,
     required this.settingHome,
-    required this.isNeeded,
-    required this.model,
   }) : super(key: key);
 
   @override
@@ -26,13 +24,13 @@ class _NeededItemListWidgetState extends State<NeededItemListWidget> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       //===========future에 List<NeededItemModel>을 저장========================
-      future: widget.model,
+      future: widget.modelList,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SizedBox(
             height: 550,
             width: 390,
-            //=====future인 List<NeededItemModel>을 ListView 형태로 보여줌======
+            //=====future인 modelList를 ListView 형태로 보여줌======
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 17),
               scrollDirection: Axis.vertical,

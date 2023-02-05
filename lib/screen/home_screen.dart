@@ -18,31 +18,30 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _formKey = GlobalKey<FormState>();
   bool isNeeded = true;
   final TextEditingController textController = TextEditingController();
-  final FocusNode focusNode = FocusNode();
+  // final FocusNode focusNode = FocusNode();
 
+  ///DB에서 아이템리스트 get해오는 함수
   Future<List<NeededItemModel>> getNeededItemModelList() =>
       NeededItemDBService.getNeededItemList();
   Future<List<ExistedItemModel>> getExitedItemModelList() =>
       ExistedItemDBService.getExistedItemList();
-
-  /// 목록 container 누르면 isNeeded를 바꾸는 함수
-  /// => isNeeded에 따라 스크린에 뜨는 위젯이 달라짐.
-  void changeListSort(bool clickedListSort) {
-    setState(() {
-      if (isNeeded != clickedListSort) {
-        isNeeded = !isNeeded;
-      }
-    });
-  }
 
   ///데이터 변경될 때 마다 HomeScreen 다시 세팅 해주는 함수
   void setHomeScreen() {
     setState(() {
       getNeededItemModelList();
       getExitedItemModelList();
+    });
+  }
+
+  ///물품 목록을 누를 때마다 isNeeded 변수를 변경하는 함수
+  void changeListSort(bool clickedListSort) {
+    setState(() {
+      if (isNeeded != clickedListSort) {
+        isNeeded = !isNeeded;
+      }
     });
   }
 
@@ -55,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 55, 61, 79),
         centerTitle: true,
-        //==============================title=====================================
+        //============================title=====================================
         title: const Text(
           'Item Manager',
           style: TextStyle(
@@ -96,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Center(
                   child: TextField(
                     controller: textController,
-                    focusNode: focusNode,
+                    // focusNode: focusNode,
                     textInputAction: TextInputAction.go,
                     onSubmitted: (value) => searchItem(textController.text),
                     decoration: InputDecoration(
@@ -117,41 +116,6 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 25,
               ),
-
-              // SizedBox(
-              //   width: 360,
-              //   height: 95,
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(2),
-              //     child:
-              //         //SearchBar 생성(지금은 SelectBar여서 수정해야 함)
-              //         Form(
-              //       key: _formKey,
-              //       autovalidateMode: AutovalidateMode.onUserInteraction,
-              //       child: ListView(
-              //         padding: const EdgeInsets.all(4),
-              //         children: <Widget>[
-              //           const Divider(),
-              //           Row(
-              //             children: [
-              //               Expanded(
-              //                 child: DropdownSearch<String>(
-              //                   //isNeeded가 true(1)이면 필요 물품 이름을 보여주고,
-              //                   // false(0)이면 구비 물품 이름을 보여줌.
-              //                   items: isNeeded
-              //                       ? HomeScreen.neededItemsSample
-              //                           .getNeededNameList()
-              //                       : HomeScreen.existedItemsSample
-              //                           .getExistedNameList(),
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
               //=====================물품 목록 선택=============================
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -222,14 +186,12 @@ class _HomeScreenState extends State<HomeScreen> {
               //=======================Item ListView============================
               isNeeded
                   ? NeededItemListWidget(
-                      model: getNeededItemModelList(),
+                      modelList: getNeededItemModelList(),
                       settingHome: setHomeScreen,
-                      isNeeded: isNeeded,
                     )
                   : ExistedItemListWidget(
-                      model: getExitedItemModelList(),
+                      modelList: getExitedItemModelList(),
                       settingHome: setHomeScreen,
-                      isNeeded: isNeeded,
                     )
             ],
           ),

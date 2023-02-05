@@ -4,15 +4,13 @@ import '../../model/existed_item_model.dart';
 import 'existed_item_widget.dart';
 
 class ExistedItemListWidget extends StatefulWidget {
-  final bool isNeeded;
-  final Future<List<ExistedItemModel>> model;
+  final Future<List<ExistedItemModel>> modelList;
   late Function settingHome;
 
   ExistedItemListWidget({
     Key? key,
     required this.settingHome,
-    required this.isNeeded,
-    required this.model,
+    required this.modelList,
   }) : super(key: key);
 
   @override
@@ -24,7 +22,7 @@ class _ExistedItemListWidgetState extends State<ExistedItemListWidget> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       //==========future에 List<ExistedItemModel>을 저장========================
-      future: widget.model,
+      future: widget.modelList,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SizedBox(
