@@ -20,6 +20,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _formKey = GlobalKey<FormState>();
   bool isNeeded = true;
+  final TextEditingController textController = TextEditingController();
+  final FocusNode focusNode = FocusNode();
+
   Future<List<NeededItemModel>> getNeededItemModelList() =>
       NeededItemDBService.getNeededItemList();
   Future<List<ExistedItemModel>> getExitedItemModelList() =>
@@ -43,12 +46,16 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void searchItem(String item) {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //============================App Bar=====================================
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 55, 61, 79),
         centerTitle: true,
+        //==============================title=====================================
         title: const Text(
           'Item Manager',
           style: TextStyle(
@@ -57,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
             fontWeight: FontWeight.w300,
           ),
         ),
+        //=============================icon=====================================
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.assignment_late_outlined),
@@ -70,8 +78,46 @@ class _HomeScreenState extends State<HomeScreen> {
           Column(
             children: [
               const SizedBox(
-                height: 5,
+                height: 20,
               ),
+              //==========================검색바================================
+              Container(
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 2,
+                    color: Colors.grey,
+                  ),
+                  color: Theme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                width: 360,
+                height: 50,
+                child: Center(
+                  child: TextField(
+                    controller: textController,
+                    focusNode: focusNode,
+                    textInputAction: TextInputAction.go,
+                    onSubmitted: (value) => searchItem(textController.text),
+                    decoration: InputDecoration(
+                      prefixIcon: IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: () => searchItem(textController.text),
+                      ),
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {},
+                      ),
+                      hintText: '물품을 검색하세요',
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+
               // SizedBox(
               //   width: 360,
               //   height: 95,
@@ -106,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
               //     ),
               //   ),
               // ),
-              //-----------------------------물품 목록 종류 UI 및 액션 부분---------------------------
+              //=====================물품 목록 선택=============================
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Row(
@@ -128,7 +174,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               SizedBox(
                                 width: 150,
                                 child: Divider(
-                                  //isNeeded에 따라 구분선 색 변화.
                                   color: isNeeded
                                       ? const Color.fromARGB(255, 55, 61, 79)
                                       : const Color.fromARGB(
@@ -189,19 +234,20 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
 
-          //-----------------------------아래에 Plus 버튼 UI부분--------------------------------------
+          //===========================Plus Icon================================
           GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
                 HeroDialogRoute(
-                    builder: ((context) => isNeeded
-                        ? UploadNeededItemScreen(
-                            settingHome: setHomeScreen,
-                          )
-                        : UploadExistedItemScreen(
-                            settingHome: setHomeScreen,
-                          ))),
+                  builder: ((context) => isNeeded
+                      ? UploadNeededItemScreen(
+                          settingHome: setHomeScreen,
+                        )
+                      : UploadExistedItemScreen(
+                          settingHome: setHomeScreen,
+                        )),
+                ),
               );
             },
             child: const Align(
@@ -220,13 +266,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-//   ///필요물품과 구비물품을 생성하고 UI를 화면에 띄우는 함수
-//   StatelessWidget makeItemListWidget() {
-//     return isNeeded
-//         ? NeededItemListWidget(
-//             neededItemList: neededItemModelList, settingHome: setHomeScreen)
-//         : ExistedItemListWidget(
-//             existedItemList: existedItemModelList, settingHome: setHomeScreen);
-//   }
 }

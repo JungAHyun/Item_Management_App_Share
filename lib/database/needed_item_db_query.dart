@@ -17,7 +17,8 @@ class NeededItemDBQuery {
       path,
       version: 1,
       onCreate: (db, version) async {
-        await db.execute("CREATE TABLE NeededItems(id INTEGER PRIMARY KEY , name TEXT , count INTEGER, bundle INTEGER ,price INTEGER, isNeeded INTEGER , isExpendables INTEGER , reason TEXT,sort TEXT)");
+        await db.execute(
+            "CREATE TABLE NeededItems(id INTEGER PRIMARY KEY , name TEXT , count INTEGER, bundle INTEGER ,price INTEGER, isNeeded INTEGER , isExpendables INTEGER , reason TEXT,sort TEXT)");
       },
       onUpgrade: (db, oldVersion, newVersion) {},
     );
@@ -57,16 +58,15 @@ class NeededItemDBQuery {
   }
 
   ///id가 같은 데이터 하나만 불어오기(해당 정보 띄울때 사용)
-  static Future<List<NeededItemModel>> getNeededItemDB(NeededItemModel neededItem) async {
+  static Future<List<NeededItemModel>> getNeededItemDB(
+      NeededItemModel neededItem) async {
     final db = await database;
 
     // 모든 데이터를 얻기 위해 테이블에 질의, db에서 데이터 얻어옴.
     final List<Map<String, dynamic>> maps = await db!.query(
       'NeededItems',
       where: 'id = ?',
-      whereArgs: [
-        neededItem.id
-      ],
+      whereArgs: [neededItem.id],
     );
 
 // List<Map<String, dynamic>를 List<NeededItemModel>으로 변환
@@ -91,9 +91,7 @@ class NeededItemDBQuery {
     await db!.delete(
       'NeededItems',
       where: "id = ?",
-      whereArgs: [
-        neededItem.id
-      ],
+      whereArgs: [neededItem.id],
     );
   }
 
@@ -104,9 +102,7 @@ class NeededItemDBQuery {
       'NeededItems',
       neededItem.toMap(),
       where: "id = ?",
-      whereArgs: [
-        neededItem.id
-      ],
+      whereArgs: [neededItem.id],
     );
   }
 }
