@@ -370,18 +370,43 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                       color: const Color.fromARGB(255, 55, 61, 79),
                       iconSize: 70,
                       onPressed: () {
-                        existedItemNameInput = itemNameTextController.text;
-                        existedDetailLocaitonInput =
-                            detailLocationTextController.text;
-                        existedCountInput = countTextController.text;
-                        existedSortInput = noteTextController.text;
-                        existedSortInput = _selectedSort;
-                        existedBundleInput = _selectedBunddle;
-                        existedBroadLocationInput = _selectedBroadLocation;
-                        existedNarrowLocationInput = _selectedNarrowLocation;
-                        existedIsExpendableInput = isExpendable;
-                        Navigator.pop(context);
-                        saveDatabase();
+                        if (itemNameTextController.text.isEmpty ||
+                            countTextController.text.isEmpty ||
+                            detailLocationTextController.text.isEmpty) {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                content:
+                                    const Text('물품명,상세위치,개수는 필수 입력 항목입니다.'),
+                                insetPadding:
+                                    const EdgeInsets.fromLTRB(0, 80, 0, 80),
+                                actions: [
+                                  TextButton(
+                                    onPressed: (() {
+                                      Navigator.of(context).pop();
+                                    }),
+                                    child: const Text('확인'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        } else {
+                          existedItemNameInput = itemNameTextController.text;
+                          existedDetailLocaitonInput =
+                              detailLocationTextController.text;
+                          existedCountInput = countTextController.text;
+                          existedSortInput = noteTextController.text;
+                          existedSortInput = _selectedSort;
+                          existedBundleInput = _selectedBunddle;
+                          existedBroadLocationInput = _selectedBroadLocation;
+                          existedNarrowLocationInput = _selectedNarrowLocation;
+                          existedIsExpendableInput = isExpendable;
+                          Navigator.pop(context);
+                          saveDatabase();
+                        }
                       },
                     ),
                   ],

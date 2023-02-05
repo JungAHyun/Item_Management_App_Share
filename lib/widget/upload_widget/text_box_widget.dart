@@ -18,11 +18,18 @@ class TextBoxWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      key: GlobalKey<FormState>(),
       width: textbox_width,
-      height: textbox_height,
+      height: textbox_height + 15,
       child: TextFormField(
+        //수정부분
+        autovalidateMode: AutovalidateMode.always,
         controller: myTextController,
-        decoration: InputDecoration(contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0), border: const OutlineInputBorder(), hintText: hintText),
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          border: const OutlineInputBorder(),
+          hintText: hintText,
+        ),
         validator: (val) {
           if (val == null || val.isEmpty) {
             return warningText;
